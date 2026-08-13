@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Build Faster — AI Website Builder</title>
+
+<!-- Bootstrap (grid / reset utilities only — visual spec is custom) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --font-sans: "Instrument Sans", sans-serif;
+    --font-serif: "Instrument Serif", serif;
+    --accent-blue: #3054ff;
+    --accent-blue-hover: #2040e0;
+    --gradient-end: #b4c0ff;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+    color: #ffffff;
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+  }
+
+  a { text-decoration: none; }
+
+  /* ================= NAVBAR ================= */
+  .navbar-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    background: transparent;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo svg {
+    width: 24px;
+    height: 24px;
+    color: #ffffff;
+  }
+
+  .nav-center {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .nav-center {
+      display: flex;
+    }
+  }
+
+  .nav-link-custom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.2s ease;
+  }
+
+  .nav-link-custom:hover {
+    color: #ffffff;
+  }
+
+  .nav-link-custom svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-demo-link {
+    display: none;
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.2s ease;
+  }
+
+  @media (min-width: 640px) {
+    .nav-demo-link {
+      display: inline-block;
+    }
+  }
+
+  .nav-demo-link:hover {
+    color: #ffffff;
+  }
+
+  .btn-get-started {
+    background: #ffffff;
+    color: #000000;
+    border-radius: 9999px;
+    padding: 0.625rem 1.25rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .btn-get-started:hover {
+    transform: scale(1.03);
+  }
+
+  /* ================= HERO ================= */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: #000000;
+    color: #ffffff;
+    overflow: hidden;
+  }
+
+  .hero-video-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-video-layer video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    z-index: 1;
+    border-radius: 50%;
+    filter: blur(120px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  .hero-glow-1 {
+    top: -20%;
+    left: 20%;
+    width: 600px;
+    height: 600px;
+    background: rgba(30, 58, 138, 0.2);
+  }
+
+  .hero-glow-2 {
+    bottom: -10%;
+    right: 20%;
+    width: 500px;
+    height: 500px;
+    background: rgba(49, 46, 129, 0.2);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    padding-top: 8rem;
+    padding-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    justify-content: center;
+  }
+
+  .hero-pre-headline {
+    font-family: var(--font-serif);
+    font-size: 1.875rem;
+    line-height: 1.1;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  @media (min-width: 640px) {
+    .hero-pre-headline {
+      font-size: 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-pre-headline {
+      font-size: 48px;
+    }
+  }
+
+  .hero-headline {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 3.75rem;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    margin: 1.5rem 0 0;
+    background: linear-gradient(to bottom, #ffffff, #ffffff, var(--gradient-end));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  @media (min-width: 640px) {
+    .hero-headline {
+      font-size: 6rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero-headline {
+      font-size: 136px;
+    }
+  }
+
+  .hero-subheadline {
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: #ffffff;
+    opacity: 0.7;
+    max-width: 36rem;
+    margin: 3rem auto 0;
+  }
+
+  @media (min-width: 640px) {
+    .hero-subheadline {
+      font-size: 20px;
+    }
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 640px) {
+    .hero-buttons {
+      flex-direction: row;
+    }
+  }
+
+  .btn-primary-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #ffffff;
+    border-radius: 9999px;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    border: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+  }
+
+  .btn-primary-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  .btn-primary-cta span {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 1.125rem;
+    color: #0a0400;
+  }
+
+  .btn-primary-cta .arrow-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .btn-primary-cta:hover .arrow-circle {
+    background: var(--accent-blue-hover);
+  }
+
+  .btn-primary-cta .arrow-circle svg {
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+  }
+
+  .btn-secondary-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: transparent;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .btn-secondary-cta:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-secondary-cta svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-secondary-cta:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* ================= ENTRANCE ANIMATIONS ================= */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeIn70 {
+    from { opacity: 0; }
+    to { opacity: 0.7; }
+  }
+
+  .anim-fade-up {
+    opacity: 0;
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .anim-scale-in {
+    opacity: 0;
+    animation: scaleIn 0.6s ease-out 0.2s forwards;
+  }
+
+  .anim-fade-70 {
+    opacity: 0;
+    animation: fadeIn70 0.6s ease-out 0.4s forwards;
+  }
+
+  .anim-buttons {
+    opacity: 0;
+    animation: fadeUp 0.5s ease-out 0.6s forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .anim-fade-up, .anim-scale-in, .anim-fade-70, .anim-buttons {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .anim-fade-70 { opacity: 0.7; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="navbar-custom">
+  <a href="#" class="nav-logo" aria-label="Home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3v2M12 19v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M3 12h2M19 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+      <circle cx="12" cy="12" r="4" />
+    </svg>
+  </a>
+
+  <div class="nav-center">
+    <a href="#" class="nav-link-custom">
+      Products
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </a>
+    <a href="#" class="nav-link-custom">Customer Stories</a>
+    <a href="#" class="nav-link-custom">Resources</a>
+    <a href="#" class="nav-link-custom">Pricing</a>
+  </div>
+
+  <div class="nav-right">
+    <a href="#" class="nav-demo-link">Book A Demo</a>
+    <button class="btn-get-started">Get Started</button>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+
+  <div class="hero-video-layer">
+    <video
+      id="heroVideo"
+      muted
+      loop
+      playsinline
+      autoplay
+      poster="https://images.unsplash.com/photo-1647356191320-d7a1f80ca777?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhcmslMjB0ZWNobm9sb2d5JTIwbmV1cmFsJTIwbmV0d29ya3xlbnwxfHx8fDE3Njg5NzIyNTV8MA&ixlib=rb-4.1.0&q=80&w=1080"
+    ></video>
+  </div>
+
+  <div class="hero-overlay"></div>
+  <div class="hero-glow hero-glow-1"></div>
+  <div class="hero-glow hero-glow-2"></div>
+
+  <div class="hero-content">
+    <p class="hero-pre-headline anim-fade-up">Design at the speed of thought</p>
+
+    <h1 class="hero-headline anim-scale-in">Build Faster</h1>
+
+    <p class="hero-subheadline anim-fade-70">
+      Create fully functional, SEO-optimized websites in seconds with our advanced AI engine.
+    </p>
+
+    <div class="hero-buttons anim-buttons">
+      <button class="btn-primary-cta">
+        <span>Start Building Free</span>
+        <span class="arrow-circle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </span>
+      </button>
+
+      <a href="#" class="btn-secondary-cta">
+        See Examples
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<!-- hls.js for Mux HLS stream playback -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.6.15/dist/hls.min.js"></script>
+<script>
+  const video = document.getElementById("heroVideo");
+  const videoSrc = "https://stream.mux.com/T6oQJQ02cQ6N01TR6iHwZkKFkbepS34dkkIc9iukgy400g.m3u8";
+
+  if (video) {
+    if (window.Hls && Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch((e) => console.log("Auto-play prevented:", e));
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // Native HLS support (Safari)
+      video.src = videoSrc;
+      video.addEventListener("loadedmetadata", () => {
+        video.play().catch((e) => console.log("Auto-play prevented:", e));
+      });
+    }
+  }
+</script>
+
+</body>
+</html>
